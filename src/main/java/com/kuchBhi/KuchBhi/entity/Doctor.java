@@ -26,7 +26,4 @@ public class Doctor {
     @ManyToMany(mappedBy = "doctors")
     private List<Department> departments = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "appointment_id")
-    private Appointment appointment;
 }

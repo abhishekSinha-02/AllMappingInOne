@@ -4,8 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,7 +21,6 @@ public class Patient {
 
     private LocalDateTime visitedAt = LocalDateTime.now();
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "appointment_id")
-    private Appointment appointment;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "patient")
+    private List<Appointment> appointment = new ArrayList<>();
 }

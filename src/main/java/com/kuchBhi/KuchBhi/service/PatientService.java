@@ -12,4 +12,6 @@ public interface PatientService {
     PatientResponse getPatient(Long id);
 
     PatientResponse updatePerson(Long id, PatientDto dto);
+
+    String addAppointment(Long patientId, Long appointmentId);
 }

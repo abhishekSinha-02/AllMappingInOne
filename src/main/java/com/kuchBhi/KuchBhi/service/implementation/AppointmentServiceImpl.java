@@ -41,7 +41,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         Doctor doctor = doctorRepository.findById(docId).orElseThrow(()-> new RuntimeException("Enter correct Id"));
 
         appointment.setDoctor(doctor);
-        doctor.setAppointment(appointment);
         appointmentRepository.save(appointment);
         return "Doctor assigned successfully";
     }

@@ -17,10 +17,12 @@ public class Appointment {
 
     private String reason;
 
-    @OneToOne(mappedBy = "appointment")
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
     private Patient patient;
 
-    @OneToOne(mappedBy = "appointment")
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
     private LocalDateTime createdAt = LocalDateTime.now();

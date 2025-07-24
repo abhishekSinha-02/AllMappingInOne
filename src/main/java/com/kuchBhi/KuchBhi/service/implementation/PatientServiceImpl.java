@@ -27,12 +27,23 @@ public class PatientServiceImpl implements PatientService {
 
         Appointment appointment = appointmentRepository.findById(appId).orElseThrow(()-> new RuntimeException("Enter correct appointment id"));
 
-        patient.setAppointment(appointment);
+        patient.getAppointment().add(appointment);
         appointment.setPatient(patient);
         patientRepository.save(patient);
         return patientToResponse(patient);
     }
 
+    public String addAppointment(Long patientId, Long appointmentId){
+        Patient patient = patientRepository.findById(patientId).orElseThrow(()-> new RuntimeException("Enter correct patient id"));
+        Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow(()-> new RuntimeException("Enter correct appointment id"));
+
+        patient.getAppointment().add(appointment);
+        appointment.setPatient(patient);
+
+        patientRepository.save(patient);
+        appointmentRepository.save(appointment);
+        return "Appointment made for patient successfully";
+    }
     @Override
     public String deletePatient(Long id) {
         Patient patient = patientRepository.findById(id).orElseThrow(()-> new RuntimeException("Invalid Id"));
@@ -55,10 +66,23 @@ public class PatientServiceImpl implements PatientService {
     }
 
     private PatientResponse patientToResponse(Patient patient){
+
         PatientResponse response = new PatientResponse();
+
         response.setName(patient.getName());
-        response.setReason(patient.getAppointment().getReason());
-        response.setAssignedDoctor(patient.getAppointment().getDoctor().getName());
+
+        response.setReason(patient.getAppointment()
+                .stream()
+                .map(x -> x.getReason())
+                .toList()
+                .toString());
+
+        response.setAssignedDoctor(patient.getAppointment()
+                .stream()
+                .map(x -> x.getDoctor().getName())
+                .toList()
+                .toString());
+
         response.setVisitedAt(patient.getVisitedAt());
         return response;
     }
